@@ -1,6 +1,8 @@
 from preprocess import preprocess_text
 from flask import Flask, render_template, request, url_for
 import pickle
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='sklearn')
 
 app = Flask(__name__)
 
