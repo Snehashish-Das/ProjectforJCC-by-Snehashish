@@ -17,6 +17,11 @@ try:
 except LookupError:
     nltk.download('stopwords')
 
+try:
+    nltk.data.find('corpora/wordnet')
+except LookupError:
+    nltk.download('wordnet')
+
 app = Flask(__name__)
 
 # Load the sentiment analysis model and TF-IDF vectorizer
