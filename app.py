@@ -1,8 +1,16 @@
-from preprocess import preprocess_text
-from flask import Flask, render_template, request, url_for
+import nltk
 import pickle
+from flask import Flask, render_template, request, url_for
+from preprocess import preprocess_text
 import warnings
+
 warnings.filterwarnings("ignore", category=UserWarning, module='sklearn')
+
+# Download 'punkt' if not already downloaded
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
 
 app = Flask(__name__)
 
@@ -32,12 +40,15 @@ def analyze_sentiment():
         sentiment = svm.predict(comment_vector)[0]
 
         # Determine the boundary glow color based on sentiment
-        boundary_color = 'cyan' if sentiment == 'positive' else 'red'
+        boundary_color = 'cyan' if sentiment == 1 else 'red'
 
         # Determine the Lottie animation path based on sentiment
         lottie_path = 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f929/lottie.json' if sentiment == 1 else 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f631/lottie.json'
 
     return render_template('index.html', sentiment=sentiment, boundary_color=boundary_color, movie_name=movie_name, lottie_path=lottie_path)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
