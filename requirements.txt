@@ -3,3 +3,4 @@ scikit-learn
 numpy
 gunicorn==20.1.0
 pandas
+nltk
